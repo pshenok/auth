@@ -2,6 +2,7 @@ import { AbstractConfig } from './AbstractConfig';
 
 const WEB_PORT = 3000;
 const BODY_LIMIT = 10485760; // 10 MB;
+const DEFAULT_SALT_ROUNDS = 10;
 
 export class Config extends AbstractConfig {
 	public web = {
@@ -31,4 +32,7 @@ export class Config extends AbstractConfig {
 	public logger = {
 		loggingType: this.getString('LOGGING_TYPE', 'json')
 	};
+	public crypto = {
+		saltRounds: this.getNumber('SALT_ROUNDS', DEFAULT_SALT_ROUNDS)
+	}
 }
