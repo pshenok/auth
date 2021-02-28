@@ -4,6 +4,8 @@ import { User } from '../../../domain/user/User';
 export class UserModel extends Model {
 	public id!: string;
 	public email!: string;
+	public salt!: string;
+	public passwordHash!: string;
 	public emailVerified!: boolean;
 	public firstName?: string;
 	public lastName?: string;
@@ -33,6 +35,14 @@ export class UserModel extends Model {
 					unique:    true,
 					allowNull: false,
 					field:     'email',
+				},
+				salt: {
+					type:      DataTypes.STRING,
+					allowNull: false,
+				},
+				passwordHash: {
+					type:      DataTypes.STRING,
+					allowNull: false,
 				},
 				emailVerified: {
 					type:         DataTypes.BOOLEAN,

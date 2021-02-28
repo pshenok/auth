@@ -19,10 +19,18 @@ export class UserService {
 		return user;
 	}
 
-	public async signUp (input: ISignUpInput): Promise<void> {
+	public async signUp (input: ISignUpInput): Promise<User> {
+
+		// check user with current email
+
 		const salt = bcrypt.genSaltSync(this.config.crypto.saltRounds);
-		const hash = bcrypt.hashSync(input.password, salt);
-		console.log(hash);
-		return;
+		const passwordHash = bcrypt.hashSync(input.password, salt);
+
+		const user = await this.userRepository.create(new User({
+			email:        input.email,
+			salt:         salt,
+			passwordHash: passwordHash,
+		}));
+		return user;
 	}
 }
