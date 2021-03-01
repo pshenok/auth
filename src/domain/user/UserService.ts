@@ -21,7 +21,13 @@ export class UserService {
 
 	public async signUp (input: ISignUpInput): Promise<User> {
 
-		// check user with current email
+		const currentUser = await this.userRepository.get({
+			email: input.email
+		});
+
+		if (currentUser) {
+			throw new AppError('ALREADY EXIST', 'User already exists');
+		}
 
 		const salt = bcrypt.genSaltSync(this.config.crypto.saltRounds);
 		const passwordHash = bcrypt.hashSync(input.password, salt);

@@ -35,12 +35,19 @@ export class UserRepository implements IUserRepository {
 
 	private generateWhereFromInput (input: IFindUserInput): Partial<object> {
 		const where: any = {};
+
 		if (input.id) {
 			Object.assign(where, {
 				id: input.id
 			});
-			return where;
 		}
+
+		if (input.email) {
+			Object.assign(where, {
+				email: input.email
+			});
+		}
+
 		if (input.text) {
 			Object.assign(where, {
 				[Op.or]: [

@@ -2,8 +2,9 @@ import { IListStructure } from '../domain.types';
 import { User } from './User';
 
 export interface IFindUserInput {
-	id: string;
-	text: string;
+	id?: string;
+	text?: string;
+	email?: string;
 }
 
 export interface IUserRepository {
