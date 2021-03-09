@@ -1,14 +1,14 @@
 import { AppError } from '../../app/AppError';
-import { GoogleAuth } from '../../infra/provider/google/GoogleAuth';
 import { IUserRepository } from './IUserRepository';
 import { ISignUpInput } from './types';
 import { User } from './User';
 import bcrypt from 'bcrypt';
 import { Config } from '../../app/Config';
+import { IProviderInterface } from '../IProviderInterface';
 
 export class UserService {
 
-	constructor (private googleAuth: GoogleAuth, private userRepository: IUserRepository, private config: Config) {}
+	constructor (private googleAuth: IProviderInterface, private userRepository: IUserRepository, private config: Config) {}
 
 	public async authUserByGoogle (token: string): Promise<User> {
 		const googleUser = await this.googleAuth.authUserByToken(token);
