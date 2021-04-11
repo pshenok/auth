@@ -29,12 +29,11 @@ export class UserService {
 			throw new AppError('ALREADY EXIST', 'User already exists');
 		}
 
-		const salt = bcrypt.genSaltSync(this.config.crypto.saltRounds);
-		const passwordHash = bcrypt.hashSync(input.password, salt);
+		const salt = await bcrypt.genSalt(this.config.crypto.saltRounds);
+		const passwordHash = await bcrypt.hash(input.password, salt);
 
 		const user = await this.userRepository.create(new User({
 			email:        input.email,
-			salt:         salt,
 			passwordHash: passwordHash,
 		}));
 		return user;

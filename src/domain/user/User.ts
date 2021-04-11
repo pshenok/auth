@@ -4,7 +4,6 @@ export class User {
 
 	public id: string;
 	public email: string;
-	public salt: string;
 	public passwordHash: string;
 	public emailVerified: boolean;
 	public firstName?: string;
@@ -14,7 +13,6 @@ export class User {
 	constructor (init: Partial<User>) {
 		this.id            = init.id || uuid.v4();
 		this.email         = init.email!;
-		this.salt          = init.salt!;
 		this.passwordHash  = init.passwordHash!;
 		this.emailVerified = init.emailVerified || false;
 		this.firstName     = init.firstName;

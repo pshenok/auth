@@ -15,10 +15,6 @@ module.exports = {
 				unique:    true,
 				field:     'email',
 			},
-			salt: {
-				type:      DataTypes.STRING,
-				allowNull: false,
-			},
 			passwordHash: {
 				type:      DataTypes.STRING,
 				allowNull: false,
