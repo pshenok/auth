@@ -1,8 +1,9 @@
 import { OAuth2Client, LoginTicket } from 'google-auth-library';
 import { Config } from '../../../app/Config';
+import { IProviderInterface } from '../../../domain/IProviderInterface';
 import { GoogleUser } from './types';
 
-export class GoogleAuth {
+export class GoogleAuth implements IProviderInterface {
 
 	private clientId: string;
 	private client: OAuth2Client;
