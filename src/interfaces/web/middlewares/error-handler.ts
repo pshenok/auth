@@ -1,7 +1,7 @@
-import { Express, Request, Response } from "express";
-import { WebError } from "../WebError";
+import { Express, Request, Response } from 'express';
+import { WebError } from '../WebError';
 
-export function registerErrorHandler(app: Express): void {
+export function registerErrorHandler (app: Express): void {
 	// It is need to be the last middleware !!!
 
 	app.use((req, res, next) => {
@@ -15,7 +15,7 @@ export function registerErrorHandler(app: Express): void {
 		if (err instanceof WebError) {
 			app.locals.logger.warn(err.toString());
 			webError = err;
-		} else if (err.name === "PayloadTooLargeError") {
+		} else if (err.name === 'PayloadTooLargeError') {
 			webError = new WebError(413);
 		} else {
 			webError = WebError.from(err);
@@ -33,9 +33,9 @@ export function registerErrorHandler(app: Express): void {
 
 		res.send({
 			statusCode: errData.statusCode,
-			error: errData.error,
-			message: errData.message,
-			details: errData.details
+			error:      errData.error,
+			message:    errData.message,
+			details:    errData.details
 		});
 	});
 }

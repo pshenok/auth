@@ -1,6 +1,6 @@
-import { STATUS_CODES } from "http";
-import stringify from "json-stringify-safe";
-import { AppError } from "../../app/AppError";
+import { STATUS_CODES } from 'http';
+import stringify from 'json-stringify-safe';
+import { AppError } from '../../app/AppError';
 
 export class WebError extends Error {
 	private type: string;
@@ -10,7 +10,7 @@ export class WebError extends Error {
 	public details?: any;
 	public origError?: Error;
 
-	public static from(err: any): WebError {
+	public static from (err: any): WebError {
 		if (err instanceof AppError) {
 			const errData = err.toJSON();
 
@@ -18,16 +18,16 @@ export class WebError extends Error {
 		} else if (err instanceof WebError) {
 			return err;
 		} else {
-			return new WebError(500, "INTERNAL ERROR", "Internal error", undefined, err);
+			return new WebError(500, 'INTERNAL ERROR', 'Internal error', undefined, err);
 		}
 	}
 
-	constructor(statusCode: number, error?: string, message?: string, details?: any, origError?: Error) {
+	constructor (statusCode: number, error?: string, message?: string, details?: any, origError?: Error) {
 		super();
 		Error.captureStackTrace(this, this.constructor);
 
 		this.statusCode = Number(statusCode) || 500;
-		this.error = (error || STATUS_CODES[this.statusCode] || "UNKNOWN_WEB_ERROR").toUpperCase();
+		this.error = (error || STATUS_CODES[this.statusCode] || 'UNKNOWN_WEB_ERROR').toUpperCase();
 		this.details = details ? JSON.parse(stringify(details)) : undefined;
 		this.origError = origError;
 		this.type = this.constructor.name;
@@ -35,21 +35,21 @@ export class WebError extends Error {
 		if (message) {
 			this.message = message;
 		} else {
-			this.message = STATUS_CODES[this.statusCode] || "UNKNOWN_WEB_ERROR";
+			this.message = STATUS_CODES[this.statusCode] || 'UNKNOWN_WEB_ERROR';
 		}
 	}
 
-	public toJSON(): { type: string; error: string; statusCode: number; message: string; details?: any } {
+	public toJSON (): { type: string; error: string; statusCode: number; message: string; details?: any } {
 		return {
-			type: this.type,
-			error: this.error,
+			type:       this.type,
+			error:      this.error,
 			statusCode: this.statusCode,
-			message: this.message,
-			details: this.details
+			message:    this.message,
+			details:    this.details
 		};
 	}
 
-	public toString(): string {
+	public toString (): string {
 		return (
 			`${this.type}: {` +
 			`statusCode: ${this.statusCode}, ` +
@@ -57,7 +57,7 @@ export class WebError extends Error {
 			`message: ${this.message}, ` +
 			`details: ${stringify(this.details)}, ` +
 			`origError: ${stringify(this.origError)}` +
-			"}"
+			'}'
 		);
 	}
 }
