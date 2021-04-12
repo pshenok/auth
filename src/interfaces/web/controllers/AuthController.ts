@@ -29,9 +29,9 @@ export class AuthController {
 	}
 
 	@handler({
-		description: 'Auth with Google',
+		description: 'Sign up new user',
 		method:      'POST',
-		path:        '/user/signup',
+		path:        '/auth/signup',
 		validate:    {
 			body: joi.object().keys({
 				token: joi.string()

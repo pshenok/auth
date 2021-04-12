@@ -6,6 +6,7 @@ export class UserModel extends Model {
 	public email!: string;
 	public passwordHash!: string;
 	public emailVerified!: boolean;
+	public refreshToken?: string;
 	public firstName?: string;
 	public lastName?: string;
 	public avatar?: string;
@@ -38,6 +39,10 @@ export class UserModel extends Model {
 				passwordHash: {
 					type:      DataTypes.STRING,
 					allowNull: false,
+				},
+				refreshToken: {
+					type:      DataTypes.STRING,
+					allowNull: true,
 				},
 				emailVerified: {
 					type:         DataTypes.BOOLEAN,
