@@ -24,7 +24,6 @@ export class UserService {
 
 	public async signUp (input: ISignUpInput): Promise<{
 		accessToken: string;
-		refreshToken: string;
 		user: Partial<User>;
 	}> {
 
@@ -39,21 +38,19 @@ export class UserService {
 		const salt = await bcrypt.genSalt(this.config.crypto.saltRounds);
 		const passwordHash = await bcrypt.hash(input.password, salt);
 
-		const refreshToken = uuid();
-
 		const user = await this.userRepository.create(new User({
 			email:        input.email,
 			passwordHash: passwordHash,
-			refreshToken: refreshToken,
+			refreshToken: uuid(),
 		}));
 
 		return {
-			accessToken:  jwt.sign({ userId: user.id }, this.config.crypto.jwtSecret),
-			refreshToken: refreshToken,
-			user:         {
+			accessToken: jwt.sign({ userId: user.id }, this.config.crypto.jwtSecret),
+			user:        {
 				id:            user.id,
 				email:         user.email,
 				emailVerified: user.emailVerified,
+				refreshToken:  user.refreshToken,
 				firstName:     user.firstName,
 				lastName:      user.lastName,
 				avatar:        user.avatar,
