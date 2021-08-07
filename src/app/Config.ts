@@ -33,6 +33,7 @@ export class Config extends AbstractConfig {
 		loggingType: this.getString('LOGGING_TYPE', 'json')
 	};
 	public crypto = {
-		saltRounds: this.getNumber('SALT_ROUNDS', DEFAULT_SALT_ROUNDS)
+		saltRounds: this.getNumber('SALT_ROUNDS', DEFAULT_SALT_ROUNDS),
+		jwtSecret:  this.getString('JWT_SECRET')
 	}
 }

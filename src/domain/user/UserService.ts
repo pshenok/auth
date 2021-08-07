@@ -5,6 +5,8 @@ import { User } from './User';
 import bcrypt from 'bcrypt';
 import { Config } from '../../app/Config';
 import { IProviderInterface } from '../IProviderInterface';
+import jwt from 'jsonwebtoken';
+import uuid from 'uuid';
 
 export class UserService {
 
@@ -16,10 +18,14 @@ export class UserService {
 			throw new AppError('WRONG TOKEN', 'User not found');
 		}
 		const user = await this.userRepository.create(new User(googleUser));
+
 		return user;
 	}
 
-	public async signUp (input: ISignUpInput): Promise<User> {
+	public async signUp (input: ISignUpInput): Promise<{
+		accessToken: string;
+		user: Partial<User>;
+	}> {
 
 		const currentUser = await this.userRepository.get({
 			email: input.email
@@ -35,7 +41,20 @@ export class UserService {
 		const user = await this.userRepository.create(new User({
 			email:        input.email,
 			passwordHash: passwordHash,
+			refreshToken: uuid(),
 		}));
-		return user;
+
+		return {
+			accessToken: jwt.sign({ userId: user.id }, this.config.crypto.jwtSecret),
+			user:        {
+				id:            user.id,
+				email:         user.email,
+				emailVerified: user.emailVerified,
+				refreshToken:  user.refreshToken,
+				firstName:     user.firstName,
+				lastName:      user.lastName,
+				avatar:        user.avatar,
+			},
+		};
 	}
 }
